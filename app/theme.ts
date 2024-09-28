@@ -10,7 +10,16 @@ export const theme = createTheme({
       },
     },
     components: {
-      button: {},
+      button: {
+        backgroundColor: '#00C495',
+        borderWidth: '0',
+        color: '#fff',
+      },
+      checkbox: {
+        icon: {
+          backgroundColor: '#00C495',
+        },
+      },
     },
   },
 });

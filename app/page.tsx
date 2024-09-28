@@ -81,8 +81,9 @@ export default function App() {
 
   return (
     <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
+      <h1>My Tasks for the next month</h1>
+      <Button onClick={createTodo}>+ Add task</Button>
+      <h2>Tasks to do</h2>
       <Table>
         <TableHead>
           <TableRow>
