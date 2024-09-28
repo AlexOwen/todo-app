@@ -7,6 +7,13 @@ import "./../app/app.css";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
+import {
+  Table,
+  TableCell,
+  TableBody,
+  TableHead,
+  TableRow,
+} from '@aws-amplify/ui-react';
 
 Amplify.configure(outputs);
 
@@ -27,7 +34,7 @@ export default function App() {
 
   function createTodo() {
     client.models.Todo.create({
-      content: window.prompt("Todo content"),
+      name: window.prompt("Todo content"),
     });
   }
 
@@ -35,18 +42,16 @@ export default function App() {
     <main>
       <h1>My todos</h1>
       <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/nextjs/start/quickstart/nextjs-app-router-client-components/">
-          Review next steps of this tutorial.
-        </a>
-      </div>
+      <Table>
+        <TableHead></TableHead>
+        <TableBody>
+          {todos.map((todo) => (
+            <TableRow key={todo.id}>
+              <TableCell>{todo.name}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </main>
   );
 }
