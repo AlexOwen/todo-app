@@ -14,5 +14,8 @@ export default [
     "rules": {
       "react/react-in-jsx-scope": "off"
     }
+  },
+  {
+    "extends": ["next", "plugin:prettier/recommended"]
   }
 ];
