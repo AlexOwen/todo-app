@@ -23,3 +23,19 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
+
+## TODO
+
+### Accessibility
+
+- Labels for form inputs
+- Keyboard navigation
+
+### Features
+
+- Testing
+- Proper documentation
+
+### Improvements
+
+- Break the app into multiple components - the current monolothic component is not testable

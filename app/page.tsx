@@ -25,6 +25,7 @@ const client = generateClient<Schema>();
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema['Todo']['type']>>([]);
   const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
+  const [allChecked, setAllChecked] = useState<boolean>(false);
 
   function listTodos() {
     client.models.Todo.observeQuery().subscribe({
@@ -41,8 +42,24 @@ export default function App() {
   }
 
   function updateTodo(todo: Schema['Todo']['type']) {
+    console.log(todo);
     setCurrentlyEditing(currentlyEditing.filter((i) => i !== todo.id));
+    client.models.Todo.update(todo);
   }
+
+  function checkAll() {
+    if (todos.length) {
+      todos.forEach((t) =>
+        client.models.Todo.update({ ...t, isDone: !allChecked })
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (todos.length) {
+      setAllChecked(todos.every((t) => t.isDone === true));
+    }
+  }, [todos]);
 
   useEffect(() => {
     listTodos();
@@ -65,27 +82,58 @@ export default function App() {
       <h1>My todos</h1>
       <button onClick={createTodo}>+ new</button>
       <Table>
-        <TableHead></TableHead>
+        <TableHead>
+          <TableRow>
+            <TableCell>
+              <CheckboxField
+                label="All done?"
+                name="all_done"
+                labelHidden={true}
+                checked={allChecked}
+                onChange={checkAll}
+              />
+            </TableCell>
+            <TableCell>Task name</TableCell>
+            <TableCell>Due date</TableCell>
+            <TableCell>Note</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
-          {todos.map((todo) =>
-            currentlyEditing.includes(todo.id) ? (
+          {todos.map((todoObj) => {
+            const todo = { ...todoObj };
+            return currentlyEditing.includes(todo.id) ? (
               <TableRow key={todo.id}>
                 <TableCell>
                   <CheckboxField
-                    label="Is done?"
-                    name="is_done"
+                    label="Done?"
+                    name="done"
                     labelHidden={true}
                     checked={!!todo.isDone}
+                    disabled={true}
                   />
                 </TableCell>
                 <TableCell>
-                  <Input defaultValue={todo.name || ''} />
+                  <Input
+                    defaultValue={todo.name || ''}
+                    onChange={(event) => (todo.name = event.target.value)}
+                  />
                 </TableCell>
                 <TableCell>
-                  <Input defaultValue={todo.dueDate || ''} />
+                  <Input
+                    defaultValue={todo.dueDate || ''}
+                    type="date"
+                    onChange={(event) => (todo.dueDate = event.target.value)}
+                  />
                 </TableCell>
                 <TableCell>
-                  <Input defaultValue={todo.note || ''} />
+                  <Input
+                    defaultValue={todo.note || ''}
+                    onChange={(event) => {
+                      console.log(event.target.value);
+                      todo.note = event.target.value;
+                    }}
+                  />
                 </TableCell>
                 <TableCell>
                   <Button onClick={() => updateTodo(todo)}>E</Button>
@@ -94,7 +142,20 @@ export default function App() {
               </TableRow>
             ) : (
               <TableRow key={todo.id}>
-                <TableCell>{todo.isDone}</TableCell>
+                <TableCell>
+                  <CheckboxField
+                    label="Done?"
+                    name="done"
+                    labelHidden={true}
+                    checked={!!todo.isDone}
+                    onChange={(event) =>
+                      client.models.Todo.update({
+                        ...todo,
+                        isDone: event.target.checked,
+                      })
+                    }
+                  />
+                </TableCell>
                 <TableCell>{todo.name}</TableCell>
                 <TableCell>{todo.dueDate}</TableCell>
                 <TableCell>{todo.note}</TableCell>
@@ -109,8 +170,8 @@ export default function App() {
                   <Button onClick={() => deleteTodo(todo.id)}>D</Button>
                 </TableCell>
               </TableRow>
-            )
-          )}
+            );
+          })}
         </TableBody>
       </Table>
     </main>
