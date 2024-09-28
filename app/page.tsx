@@ -14,7 +14,7 @@ import {
   TableHead,
   TableRow,
   Button,
-  Input,
+  TextField,
   CheckboxField,
 } from '@aws-amplify/ui-react';
 
@@ -42,8 +42,7 @@ export default function App() {
   }
 
   function updateTodo(todo: Schema['Todo']['type']) {
-    console.log(todo);
-    setCurrentlyEditing(currentlyEditing.filter((i) => i !== todo.id));
+    setCurrentlyEditing(currentlyEditing.filter((t) => t !== todo.id));
     client.models.Todo.update(todo);
   }
 
@@ -100,8 +99,7 @@ export default function App() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {todos.map((todoObj) => {
-            const todo = { ...todoObj };
+          {todos.map((todo) => {
             return currentlyEditing.includes(todo.id) ? (
               <TableRow key={todo.id}>
                 <TableCell>
@@ -114,25 +112,28 @@ export default function App() {
                   />
                 </TableCell>
                 <TableCell>
-                  <Input
+                  <TextField
+                    label="Name"
+                    labelHidden={true}
                     defaultValue={todo.name || ''}
                     onChange={(event) => (todo.name = event.target.value)}
                   />
                 </TableCell>
                 <TableCell>
-                  <Input
+                  <TextField
+                    label="Due date"
+                    labelHidden={true}
                     defaultValue={todo.dueDate || ''}
                     type="date"
                     onChange={(event) => (todo.dueDate = event.target.value)}
                   />
                 </TableCell>
                 <TableCell>
-                  <Input
+                  <TextField
+                    label="Note"
+                    labelHidden={true}
                     defaultValue={todo.note || ''}
-                    onChange={(event) => {
-                      console.log(event.target.value);
-                      todo.note = event.target.value;
-                    }}
+                    onChange={(event) => (todo.note = event.target.value)}
                   />
                 </TableCell>
                 <TableCell>

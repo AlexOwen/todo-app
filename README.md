@@ -39,3 +39,5 @@ This library is licensed under the MIT-0 License. See the LICENSE file.
 ### Improvements
 
 - Break the app into multiple components - the current monolothic component is not testable
+- Use connected forms - instructions to get aws-cli installed for aplify did not work (gave up after 30 mins)
+- Reduce the re-renders on updating a todo item
