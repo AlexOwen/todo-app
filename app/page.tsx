@@ -13,6 +13,7 @@ import {
   TableBody,
   TableHead,
   TableRow,
+  Button,
 } from '@aws-amplify/ui-react';
 
 Amplify.configure(outputs);
@@ -28,14 +29,28 @@ export default function App() {
     });
   }
 
+  function deleteTodo() {
+
+  }
+
+  function updateTodo() {
+
+  }
+
   useEffect(() => {
     listTodos();
   }, []);
 
   function createTodo() {
-    client.models.Todo.create({
-      name: window.prompt("Todo content"),
-    });
+    const name = window.prompt("Todo content");
+
+    if (name) {
+      client.models.Todo.create({
+        name,
+      });
+    } else {
+      // TODO: show error
+    }
   }
 
   return (
@@ -47,7 +62,11 @@ export default function App() {
         <TableBody>
           {todos.map((todo) => (
             <TableRow key={todo.id}>
+              <TableCell>{todo.isDone}</TableCell>
               <TableCell>{todo.name}</TableCell>
+              <TableCell>{todo.dueDate}</TableCell>
+              <TableCell>{todo.note}</TableCell>
+              <TableCell><Button onClick={updateTodo}>E</Button><Button onClick={deleteTodo}>D</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
