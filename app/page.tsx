@@ -29,8 +29,9 @@ export default function App() {
     });
   }
 
-  function deleteTodo() {
-
+  function deleteTodo(id: string) {
+    client.models.Todo.delete({ id });
+    // TODO: catch error
   }
 
   function updateTodo() {
@@ -42,7 +43,7 @@ export default function App() {
   }, []);
 
   function createTodo() {
-    const name = window.prompt("Todo content");
+    const name = window.prompt("Todo name");
 
     if (name) {
       client.models.Todo.create({
@@ -66,7 +67,7 @@ export default function App() {
               <TableCell>{todo.name}</TableCell>
               <TableCell>{todo.dueDate}</TableCell>
               <TableCell>{todo.note}</TableCell>
-              <TableCell><Button onClick={updateTodo}>E</Button><Button onClick={deleteTodo}>D</Button></TableCell>
+              <TableCell><Button onClick={updateTodo}>E</Button><Button onClick={() => deleteTodo(todo.id)}>D</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
