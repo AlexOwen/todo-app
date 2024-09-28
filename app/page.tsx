@@ -16,6 +16,7 @@ import {
   Button,
   TextField,
   CheckboxField,
+  useTheme,
 } from '@aws-amplify/ui-react';
 
 Amplify.configure(outputs);
@@ -23,6 +24,8 @@ Amplify.configure(outputs);
 const client = generateClient<Schema>();
 
 export default function App() {
+  useTheme();
+
   const [todos, setTodos] = useState<Array<Schema['Todo']['type']>>([]);
   const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
   const [allChecked, setAllChecked] = useState<boolean>(false);
@@ -137,8 +140,12 @@ export default function App() {
                   />
                 </TableCell>
                 <TableCell>
-                  <Button onClick={() => updateTodo(todo)}>E</Button>
-                  <Button onClick={() => deleteTodo(todo.id)}>D</Button>
+                  <Button variation="link" onClick={() => updateTodo(todo)}>
+                    E
+                  </Button>
+                  <Button variation="link" onClick={() => deleteTodo(todo.id)}>
+                    D
+                  </Button>
                 </TableCell>
               </TableRow>
             ) : (
@@ -162,13 +169,16 @@ export default function App() {
                 <TableCell>{todo.note}</TableCell>
                 <TableCell>
                   <Button
+                    variation="link"
                     onClick={() =>
                       setCurrentlyEditing([...currentlyEditing, todo.id])
                     }
                   >
                     E
                   </Button>
-                  <Button onClick={() => deleteTodo(todo.id)}>D</Button>
+                  <Button variation="link" onClick={() => deleteTodo(todo.id)}>
+                    D
+                  </Button>
                 </TableCell>
               </TableRow>
             );
