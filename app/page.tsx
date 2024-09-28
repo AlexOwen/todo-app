@@ -14,6 +14,8 @@ import {
   TableHead,
   TableRow,
   Button,
+  Input,
+  CheckboxField,
 } from '@aws-amplify/ui-react';
 
 Amplify.configure(outputs);
@@ -22,6 +24,7 @@ const client = generateClient<Schema>();
 
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema['Todo']['type']>>([]);
+  const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
 
   function listTodos() {
     client.models.Todo.observeQuery().subscribe({
@@ -30,11 +33,16 @@ export default function App() {
   }
 
   function deleteTodo(id: string) {
-    client.models.Todo.delete({ id });
-    // TODO: catch error
+    try {
+      client.models.Todo.delete({ id });
+    } catch {
+      // TODO: show error
+    }
   }
 
-  function updateTodo() {}
+  function updateTodo(todo: Schema['Todo']['type']) {
+    setCurrentlyEditing(currentlyEditing.filter((i) => i !== todo.id));
+  }
 
   useEffect(() => {
     listTodos();
@@ -59,18 +67,50 @@ export default function App() {
       <Table>
         <TableHead></TableHead>
         <TableBody>
-          {todos.map((todo) => (
-            <TableRow key={todo.id}>
-              <TableCell>{todo.isDone}</TableCell>
-              <TableCell>{todo.name}</TableCell>
-              <TableCell>{todo.dueDate}</TableCell>
-              <TableCell>{todo.note}</TableCell>
-              <TableCell>
-                <Button onClick={updateTodo}>E</Button>
-                <Button onClick={() => deleteTodo(todo.id)}>D</Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {todos.map((todo) =>
+            currentlyEditing.includes(todo.id) ? (
+              <TableRow key={todo.id}>
+                <TableCell>
+                  <CheckboxField
+                    label="Is done?"
+                    name="is_done"
+                    labelHidden={true}
+                    checked={!!todo.isDone}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Input defaultValue={todo.name || ''} />
+                </TableCell>
+                <TableCell>
+                  <Input defaultValue={todo.dueDate || ''} />
+                </TableCell>
+                <TableCell>
+                  <Input defaultValue={todo.note || ''} />
+                </TableCell>
+                <TableCell>
+                  <Button onClick={() => updateTodo(todo)}>E</Button>
+                  <Button onClick={() => deleteTodo(todo.id)}>D</Button>
+                </TableCell>
+              </TableRow>
+            ) : (
+              <TableRow key={todo.id}>
+                <TableCell>{todo.isDone}</TableCell>
+                <TableCell>{todo.name}</TableCell>
+                <TableCell>{todo.dueDate}</TableCell>
+                <TableCell>{todo.note}</TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() =>
+                      setCurrentlyEditing([...currentlyEditing, todo.id])
+                    }
+                  >
+                    E
+                  </Button>
+                  <Button onClick={() => deleteTodo(todo.id)}>D</Button>
+                </TableCell>
+              </TableRow>
+            )
+          )}
         </TableBody>
       </Table>
     </main>
