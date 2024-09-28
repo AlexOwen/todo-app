@@ -2,7 +2,7 @@ import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 const schema = a.schema({
   Todo: a
     .model({
-      name: a.string().required(),
+      name: a.string(),
       isDone: a.boolean(),
       dueDate: a.date(),
       note: a.string(),
