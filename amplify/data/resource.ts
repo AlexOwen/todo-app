@@ -8,6 +8,9 @@ const schema = a.schema({
       isDone: a.boolean(),
       dueDate: a.date(),
       note: a.string(),
+      owner: a
+        .string()
+        .authorization((allow) => [allow.owner().to(['read', 'delete'])]),
     })
     .authorization((allow) => [allow.owner()]),
 
