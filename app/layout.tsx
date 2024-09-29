@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './app.css';
-import ThemeWrapper from './ThemeWrapper';
+import { SiteHeader } from './Components/SiteHeader';
 
 const poppins = Poppins({ weight: '500', subsets: ['latin'] });
 
@@ -18,10 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <header>
-          <h1>Checked</h1>
-        </header>
-        <ThemeWrapper>{children}</ThemeWrapper>
+        <SiteHeader />
+        {children}
       </body>
     </html>
   );
