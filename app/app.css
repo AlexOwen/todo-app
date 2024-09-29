@@ -2,6 +2,7 @@ body {
   margin: 0;
   background: #fffefc;
   display: flex;
+  flex-direction: column;
   font-family: 'Poppins', Arial, sans-serif;
   height: 100vh;
   width: 100vw;
@@ -13,6 +14,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  width: 1200px;
+  max-width: 80vw;
 }
 
 button {
@@ -62,4 +65,26 @@ li:hover {
 a {
   font-weight: 800;
   text-decoration: none;
+}
+
+header {
+  background: #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 16px;
+  gap: 10px;
+
+  position: absolute;
+  width: 1440px;
+  height: 56px;
+  left: 0px;
+  top: 0px;
+}
+
+header h1 {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 500;
 }
