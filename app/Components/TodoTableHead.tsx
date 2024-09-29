@@ -28,6 +28,7 @@ export const TodoTableHead = ({
         </TableCell>
         <TableCell>Task name</TableCell>
         <TableCell>Due date</TableCell>
+        <TableCell>Weather</TableCell>
         <TableCell>Note</TableCell>
         <TableCell>Actions</TableCell>
       </TableRow>

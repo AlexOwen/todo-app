@@ -7,8 +7,11 @@ import {
   Button,
   useTheme,
 } from '@aws-amplify/ui-react';
-import { useState } from 'react';
+import { generateClient } from 'aws-amplify/api';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+const client = generateClient<Schema>();
 
 const StyledActionButton = styled(Button)`
   padding: 0;
@@ -24,6 +27,21 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
   useTheme();
 
   const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
+  const [weather, setWeather] = useState('');
+
+  // useEffect(() => {
+  //   if (todo && todo.dueDate) {
+  //     const weather = client.queries
+  //       .getWeather({ date: todo.dueDate })
+  //       .then(() => {
+  //         if (weather && typeof weather === 'string') {
+  //           setWeather(weather);
+  //         }
+  //       });
+  //   }
+  // }, [todo.dueDate]);
+
+  console.log(client.queries);
 
   function checkOne(todo: Schema['Todo']['type'], newValue: boolean) {
     updateTodo({ ...todo, isDone: newValue });
@@ -62,6 +80,7 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
           onChange={(event) => (todo.dueDate = event.target.value)}
         />
       </TableCell>
+      <TableCell>{weather}</TableCell>
       <TableCell>
         <TextField
           label="Note"
@@ -95,6 +114,7 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
       </TableCell>
       <TableCell>{todo.name}</TableCell>
       <TableCell>{todo.dueDate}</TableCell>
+      <TableCell>{weather}</TableCell>
       <TableCell>{todo.note}</TableCell>
       <TableCell>
         <StyledActionButton
