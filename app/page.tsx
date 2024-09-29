@@ -55,15 +55,7 @@ export default function App() {
   }
 
   function createTodo() {
-    const name = window.prompt('Todo name');
-
-    if (name) {
-      client.models.Todo.create({
-        name,
-      });
-    } else {
-      // TODO: show error
-    }
+    client.models.Todo.create({});
   }
 
   return (
