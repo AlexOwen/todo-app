@@ -24,6 +24,14 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 
 This library is licensed under the MIT-0 License. See the LICENSE file. -->
 
+## Usage
+
+- Install Node 18/20.
+- `npm i`
+- `npm run dev`
+
+See: https://docs.amplify.aws/nextjs/start/quickstart/nextjs-app-router-client-components/#deploy-a-fullstack-app-to-aws
+
 ## Rationale
 
 I have aimed for implementing the core functionality first, and to learn AWS Amplify and Next.js.
