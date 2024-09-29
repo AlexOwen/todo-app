@@ -12,15 +12,9 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
 
     const { date } = event.arguments;
 
-    const weatherDataResponse = await fetch({
-      url: `https://api.weatherapi.com/v1/`,
-      method: 'POST',
-      body: JSON.stringify({
-        key: WEATHER_API_KEY,
-        q: 'London, UK',
-        dt: date,
-      }),
-    });
+    const weatherDataResponse = await fetch(
+      `https://api.weatherapi.com/v1/future.json?key=${WEATHER_API_KEY}&q="London,UK"&dt=${date}`
+    );
     const weatherData = await weatherDataResponse.json();
 
     return weatherData?.forecast?.forecastday[0]?.condition?.text || 'unknown';
