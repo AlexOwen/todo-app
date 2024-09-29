@@ -47,9 +47,14 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
     updateTodo({ ...todo, isDone: newValue });
   }
 
-  function finishEdit(todo: Schema['Todo']['type']) {
+  function finishEditAndSave(todo: Schema['Todo']['type']) {
     setCurrentlyEditing(currentlyEditing.filter((t) => t !== todo.id));
     updateTodo(todo);
+  }
+
+  function finishEditAndDelete(todo: Schema['Todo']['type']) {
+    setCurrentlyEditing(currentlyEditing.filter((t) => t !== todo.id));
+    deleteTodo(todo.id);
   }
 
   return currentlyEditing.includes(todo.id) ? (
@@ -90,14 +95,17 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
         />
       </TableCell>
       <TableCell>
-        <StyledActionButton variation="link" onClick={() => finishEdit(todo)}>
-          E
+        <StyledActionButton
+          variation="link"
+          onClick={() => finishEditAndSave(todo)}
+        >
+          Save
         </StyledActionButton>
         <StyledActionButton
           variation="link"
-          onClick={() => deleteTodo(todo.id)}
+          onClick={() => finishEditAndDelete(todo)}
         >
-          D
+          Delete
         </StyledActionButton>
       </TableCell>
     </TableRow>
@@ -121,13 +129,13 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
           variation="link"
           onClick={() => setCurrentlyEditing([...currentlyEditing, todo.id])}
         >
-          E
+          Edit
         </StyledActionButton>
         <StyledActionButton
           variation="link"
           onClick={() => deleteTodo(todo.id)}
         >
-          D
+          Delete
         </StyledActionButton>
       </TableCell>
     </TableRow>

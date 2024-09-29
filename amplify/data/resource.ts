@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { getWeather } from '../functions/get-weather/resource';
+
 const schema = a.schema({
   Todo: a
     .model({
