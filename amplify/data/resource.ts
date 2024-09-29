@@ -8,7 +8,7 @@ const schema = a.schema({
       dueDate: a.date(),
       note: a.string(),
     })
-    .authorization((allow) => [allow.authenticated()]),
+    .authorization((allow) => [allow.owner()]),
 
   getWeather: a
     .query()
