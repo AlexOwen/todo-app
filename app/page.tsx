@@ -7,7 +7,12 @@ import './../app/app.css';
 import { Amplify } from 'aws-amplify';
 import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
-import { Button, ThemeProvider, useTheme } from '@aws-amplify/ui-react';
+import {
+  Authenticator,
+  Button,
+  ThemeProvider,
+  useTheme,
+} from '@aws-amplify/ui-react';
 import styled from 'styled-components';
 import { TodoTable } from './Components/TodoTable';
 import { theme } from './theme';
@@ -61,14 +66,20 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <main>
-        <StyledH1>My Tasks for the next month</StyledH1>
-        <StyledAddButton onClick={createTodo}>+ Add task</StyledAddButton>
-        <h2>Tasks to do</h2>
-        <TodoTable
-          todos={todos}
-          deleteTodo={deleteTodo}
-          updateTodo={updateTodo}
-        />
+        <Authenticator>
+          {({ signOut, user }) => (
+            <>
+              <StyledH1>My Tasks for the next month</StyledH1>
+              <StyledAddButton onClick={createTodo}>+ Add task</StyledAddButton>
+              <h2>Tasks to do</h2>
+              <TodoTable
+                todos={todos}
+                deleteTodo={deleteTodo}
+                updateTodo={updateTodo}
+              />
+            </>
+          )}
+        </Authenticator>
       </main>
     </ThemeProvider>
   );
