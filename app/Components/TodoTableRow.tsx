@@ -5,6 +5,7 @@ import {
   CheckboxField,
   TextField,
   Button,
+  useTheme,
 } from '@aws-amplify/ui-react';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -20,6 +21,8 @@ type Props = {
 };
 
 export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
+  useTheme();
+
   const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
 
   function checkOne(todo: Schema['Todo']['type'], newValue: boolean) {
