@@ -5,6 +5,9 @@ import {
   CheckboxField,
   useTheme,
 } from '@aws-amplify/ui-react';
+import { RxTextAlignLeft } from 'react-icons/rx';
+import { GoCalendar } from 'react-icons/go';
+import { IconWrapper } from './IconWrapper';
 
 export const TodoTableHead = ({
   checkAll,
@@ -26,10 +29,28 @@ export const TodoTableHead = ({
             onChange={checkAll}
           />
         </TableCell>
-        <TableCell>Task name</TableCell>
-        <TableCell>Due date</TableCell>
+        <TableCell>
+          {/* TODO: replace this icon */}
+          <IconWrapper>
+            <RxTextAlignLeft />
+          </IconWrapper>{' '}
+          <span>Task name</span>
+        </TableCell>
+        <TableCell>
+          {/* TODO: replace this icon */}
+          <IconWrapper>
+            <GoCalendar />
+          </IconWrapper>
+          <span>Due date</span>
+        </TableCell>
         <TableCell>Weather</TableCell>
-        <TableCell>Note</TableCell>
+        <TableCell>
+          {/* TODO: replace this icon */}
+          <IconWrapper>
+            <RxTextAlignLeft />
+          </IconWrapper>
+          <span>Note</span>
+        </TableCell>
         <TableCell>Actions</TableCell>
       </TableRow>
     </TableHead>

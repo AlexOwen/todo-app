@@ -5,7 +5,7 @@ const client = new SSMClient();
 
 export const handler: Schema['getWeather']['functionHandler'] = async (
   event,
-  context
+  _context
 ) => {
   // your function code goes here
 
@@ -34,5 +34,6 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
 
     return weatherData?.forecast?.forecastday[0]?.condition?.text || 'unknown';
   }
+
   return 'No key';
 };

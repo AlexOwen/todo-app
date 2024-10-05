@@ -8,11 +8,12 @@ import {
   useTheme,
 } from '@aws-amplify/ui-react';
 import { generateClient } from 'aws-amplify/api';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { LuPencil } from 'react-icons/lu';
 import { IoSaveOutline } from 'react-icons/io5';
 import { FaRegTrashCan } from 'react-icons/fa6';
+import { IconWrapper } from './IconWrapper';
 
 const client = generateClient<Schema>();
 
@@ -103,15 +104,19 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
           variation="link"
           onClick={() => finishEditAndSave(todo)}
         >
-          {/* TODO: replace this icon */}
-          <IoSaveOutline />
+          <IconWrapper>
+            {/* TODO: replace this icon */}
+            <IoSaveOutline />
+          </IconWrapper>
         </StyledActionButton>
         <StyledActionButton
           variation="link"
           onClick={() => finishEditAndDelete(todo)}
         >
-          {/* TODO: replace this icon */}
-          <FaRegTrashCan />
+          <IconWrapper>
+            {/* TODO: replace this icon */}
+            <FaRegTrashCan />
+          </IconWrapper>
         </StyledActionButton>
       </TableCell>
     </TableRow>
@@ -135,15 +140,19 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
           variation="link"
           onClick={() => setCurrentlyEditing([...currentlyEditing, todo.id])}
         >
-          {/* TODO: replace this icon */}
-          <LuPencil />
+          <IconWrapper>
+            {/* TODO: replace this icon */}
+            <LuPencil />
+          </IconWrapper>
         </StyledActionButton>
         <StyledActionButton
           variation="link"
           onClick={() => deleteTodo(todo.id)}
         >
-          {/* TODO: replace this icon */}
-          <FaRegTrashCan />
+          <IconWrapper>
+            {/* TODO: replace this icon */}
+            <FaRegTrashCan />
+          </IconWrapper>
         </StyledActionButton>
       </TableCell>
     </TableRow>
