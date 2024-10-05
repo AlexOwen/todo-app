@@ -7,11 +7,9 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
   event,
   _context
 ): Promise<string | null> => {
-  // your function code goes here
-  console.log(JSON.stringify(process.env));
-
+  // TODO: fetch this dynamically
   const command = new GetParameterCommand({
-    Name: process.env['WEATHER_API_KEY'],
+    Name: '/amplify/shared/d25wxl7g3670d/WEATHER_API_KEY',
     WithDecryption: true,
   });
 
@@ -28,13 +26,15 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
   }
 
   if (weatherApiKey) {
-    console.log('has key');
-
     const { date } = event.arguments;
 
+    console.log(
+      `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q="London,UK"&dt=${date}`
+    );
     const weatherDataResponse = await fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q="London,UK"&dt=${date}`
     );
+
     const weatherData = await weatherDataResponse.json();
 
     if (weatherData?.forecast?.forecastday[0]) {
