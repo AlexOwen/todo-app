@@ -74,7 +74,6 @@ Styling is an afterthought here, but hopefully implemented enough to show I coul
 
 ### Improvements
 
-- Icons
 - More client side validation
 - Use connected forms - instructions to get aws-cli installed for amplify did not work (gave up after 30 mins)
 - Reduce the re-renders on updating a todo item

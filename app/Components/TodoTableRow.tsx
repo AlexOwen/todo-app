@@ -39,7 +39,9 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
     console.log('weather', todo, todo.dueDate);
     if (todo && todo.dueDate) {
       const weather = client.queries
-        .getWeather({ date: todo.dueDate })
+        .getWeather({
+          date: todo.dueDate,
+        })
         .then(() => {
           if (weather && typeof weather === 'string') {
             setWeather(weather);
