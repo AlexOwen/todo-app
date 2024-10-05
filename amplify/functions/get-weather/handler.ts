@@ -35,11 +35,12 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
     if (weatherData?.forecast?.forecastday?.length) {
       const dayData = weatherData?.forecast?.forecastday?.find(
         (d: { date: string }) => d.date === date
-      );
+      )?.day;
+
       if (dayData) {
         return {
           temp_c: dayData.avgtemp_c,
-          text: dayData.condition.text,
+          text: dayData.condition?.text,
         };
       }
     }
