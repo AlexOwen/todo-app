@@ -17,7 +17,7 @@ const schema = a.schema({
     .arguments({
       date: a.string(),
     })
-    .returns(a.string())
+    .returns(a.json())
     .handler(a.handler.function(getWeather))
     .authorization((allow) => [allow.authenticated()]),
 });

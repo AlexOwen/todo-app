@@ -6,7 +6,7 @@ const client = new SSMClient();
 export const handler: Schema['getWeather']['functionHandler'] = async (
   event,
   _context
-): Promise<string | null> => {
+): Promise<{ temp_c: number; text: string } | null> => {
   // your function code goes here
 
   const command = new GetParameterCommand({
@@ -37,10 +37,10 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
     const weatherData = await weatherDataResponse.json();
 
     if (weatherData?.forecast?.forecastday[0]) {
-      return JSON.stringify({
+      return {
         temp_c: weatherData?.current?.condition?.temp_c,
         text: weatherData?.current?.condition?.text,
-      });
+      };
     }
   }
 
