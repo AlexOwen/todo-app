@@ -29,19 +29,18 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
   const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
   const [weather, setWeather] = useState('');
 
-  // useEffect(() => {
-  //   if (todo && todo.dueDate) {
-  //     const weather = client.queries
-  //       .getWeather({ date: todo.dueDate })
-  //       .then(() => {
-  //         if (weather && typeof weather === 'string') {
-  //           setWeather(weather);
-  //         }
-  //       });
-  //   }
-  // }, [todo.dueDate]);
-
-  console.log(client.queries);
+  useEffect(() => {
+    console.log('weather', todo, todo.dueDate);
+    if (todo && todo.dueDate) {
+      const weather = client.queries
+        .getWeather({ date: todo.dueDate })
+        .then(() => {
+          if (weather && typeof weather === 'string') {
+            setWeather(weather);
+          }
+        });
+    }
+  }, [todo.dueDate]);
 
   function checkOne(todo: Schema['Todo']['type'], newValue: boolean) {
     updateTodo({ ...todo, isDone: newValue });

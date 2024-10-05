@@ -1,3 +1,4 @@
+import { secret } from '@aws-amplify/backend';
 import { Schema } from '../../data/resource';
 
 export const handler: Schema['getWeather']['functionHandler'] = async (
@@ -5,7 +6,7 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
   context
 ) => {
   // your function code goes here
-  const { WEATHER_API_KEY } = JSON.parse(process.env.secrets || '{}');
+  const WEATHER_API_KEY = secret('WEATHER_API_KEY');
 
   if (WEATHER_API_KEY) {
     console.log('has key');
