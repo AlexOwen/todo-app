@@ -14,21 +14,25 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
     WithDecryption: true,
   });
 
+  let weatherApiKey;
+
   try {
     const { Parameters } = await client.send(command);
 
     console.log(Parameters);
+
+    weatherApiKey = Parameters['WEATHER_API_KEY'];
   } catch (err) {
     console.error(err);
   }
 
-  if (false /*WEATHER_API_KEY*/) {
+  if (weatherApiKey) {
     console.log('has key');
 
     const { date } = event.arguments;
 
     const weatherDataResponse = await fetch(
-      `https://api.weatherapi.com/v1/future.json?key=${WEATHER_API_KEY}&q="London,UK"&dt=${date}`
+      `https://api.weatherapi.com/v1/future.json?key=${weatherApiKey}&q="London,UK"&dt=${date}`
     );
     const weatherData = await weatherDataResponse.json();
 
