@@ -1,27 +1,27 @@
 import { Schema } from '../../data/resource';
-const { SSMClient, GetParametersCommand } = require('@aws-sdk/client-ssm');
+const { SSMClient, GetParameterCommand } = require('@aws-sdk/client-ssm');
 
 const client = new SSMClient();
 
 export const handler: Schema['getWeather']['functionHandler'] = async (
   event,
   _context
-) => {
+): Promise<string | null> => {
   // your function code goes here
 
-  const command = new GetParametersCommand({
-    Names: process.env['WEATHER_API_KEY'],
+  const command = new GetParameterCommand({
+    Name: process.env['WEATHER_API_KEY'],
     WithDecryption: true,
   });
 
   let weatherApiKey;
 
   try {
-    const { Parameters } = await client.send(command);
+    const { Parameter } = await client.send(command);
 
-    console.log(Parameters);
+    console.log(Parameter);
 
-    weatherApiKey = Parameters['WEATHER_API_KEY'];
+    weatherApiKey = Parameter.Value;
   } catch (err) {
     console.error(err);
   }
@@ -32,12 +32,17 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
     const { date } = event.arguments;
 
     const weatherDataResponse = await fetch(
-      `https://api.weatherapi.com/v1/future.json?key=${weatherApiKey}&q="London,UK"&dt=${date}`
+      `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q="London,UK"&dt=${date}`
     );
     const weatherData = await weatherDataResponse.json();
 
-    return weatherData?.forecast?.forecastday[0]?.condition?.text || 'unknown';
+    if (weatherData?.forecast?.forecastday[0]) {
+      return JSON.stringify({
+        temp_c: weatherData?.current?.condition?.temp_c,
+        text: weatherData?.current?.condition?.text,
+      });
+    }
   }
 
-  return 'No key';
+  return null;
 };
