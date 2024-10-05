@@ -31,7 +31,10 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
   useTheme();
 
   const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
-  const [weather, setWeather] = useState('');
+  const [weather, setWeather] = useState({
+    temp_c: null,
+    text: null,
+  });
 
   // TODO: call this once per date, not once per row, and cache the result in a Map<Date, object>
   // And move this up to TodoTable.tsx
@@ -44,7 +47,7 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
         })
         .then(() => {
           if (weather && typeof weather === 'string') {
-            setWeather(weather);
+            setWeather(JSON.parse(weather));
           }
         });
     }
@@ -92,7 +95,9 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
           onChange={(event) => (todo.dueDate = event.target.value)}
         />
       </TableCell>
-      <TableCell>{weather}</TableCell>
+      <TableCell>
+        {weather && weather.text ? `${weather.temp_c}C ${weather.text}` : ''}
+      </TableCell>
       <TableCell>
         <TextField
           label="Note"
@@ -135,7 +140,9 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
       </TableCell>
       <TableCell>{todo.name}</TableCell>
       <TableCell>{todo.dueDate}</TableCell>
-      <TableCell>{weather}</TableCell>
+      <TableCell>
+        {weather && weather.text ? `${weather.temp_c}C ${weather.text}` : ''}
+      </TableCell>
       <TableCell>{todo.note}</TableCell>
       <TableCell>
         <StyledActionButton
