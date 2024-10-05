@@ -6,7 +6,7 @@ const client = new SSMClient();
 export const handler: Schema['getWeather']['functionHandler'] = async (
   event,
   _context
-): Promise<string | null> => {
+): Promise<object | null> => {
   // TODO: fetch this dynamically
   const command = new GetParameterCommand({
     Name: '/amplify/shared/d25wxl7g3670d/WEATHER_API_KEY',
@@ -38,10 +38,10 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
     const weatherData = await weatherDataResponse.json();
 
     if (weatherData?.forecast?.forecastday[0]) {
-      return JSON.stringify({
-        temp_c: weatherData?.current?.condition?.temp_c,
+      return {
+        temp_c: weatherData?.current?.temp_c,
         text: weatherData?.current?.condition?.text,
-      });
+      };
     }
   }
 

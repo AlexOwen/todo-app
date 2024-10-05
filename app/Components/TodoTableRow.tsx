@@ -14,6 +14,7 @@ import { LuPencil } from 'react-icons/lu';
 import { IoSaveOutline } from 'react-icons/io5';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { IconWrapper } from './IconWrapper';
+import { getWeather, Weather } from '../helpers/getWeather';
 
 const client = generateClient<Schema>();
 
@@ -31,25 +32,25 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
   useTheme();
 
   const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
-  const [weather, setWeather] = useState({
+  const [weather, setWeather] = useState<Weather>({
     temp_c: null,
     text: null,
   });
+  const [fetchingWeather, setFetchingWeather] = useState(false);
 
   // TODO: call this once per date, not once per row, and cache the result in a Map<Date, object>
   // And move this up to TodoTable.tsx
   useEffect(() => {
     console.log('weather', todo, todo.dueDate);
-    if (todo && todo.dueDate) {
-      const weather = client.queries
-        .getWeather({
-          date: todo.dueDate,
-        })
-        .then(() => {
-          if (weather && typeof weather === 'string') {
-            setWeather(JSON.parse(weather));
-          }
-        });
+    if (todo && todo.dueDate && !weather.text && !fetchingWeather) {
+      setFetchingWeather(true);
+      getWeather(todo.dueDate).then((newWeather) => {
+        if (newWeather && typeof newWeather.text === 'string') {
+          setWeather(newWeather);
+          console.log(newWeather);
+        }
+        setFetchingWeather(false);
+      });
     }
   }, [todo.dueDate]);
 
