@@ -18,8 +18,6 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
   try {
     const { Parameter } = await client.send(command);
 
-    console.log(Parameter);
-
     weatherApiKey = Parameter.Value;
   } catch (err) {
     console.error(err);
@@ -28,20 +26,22 @@ export const handler: Schema['getWeather']['functionHandler'] = async (
   if (weatherApiKey) {
     const { date } = event.arguments;
 
-    console.log(
-      `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q="London,UK"&dt=${date}`
-    );
     const weatherDataResponse = await fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q="London,UK"&dt=${date}`
     );
 
     const weatherData = await weatherDataResponse.json();
 
-    if (weatherData?.forecast?.forecastday[0]) {
-      return {
-        temp_c: weatherData?.current?.temp_c,
-        text: weatherData?.current?.condition?.text,
-      };
+    if (weatherData?.forecast?.forecastday?.length) {
+      const dayData = weatherData?.forecast?.forecastday?.find(
+        (d: { date: string }) => d.date === date
+      );
+      if (dayData) {
+        return {
+          temp_c: dayData.avgtemp_c,
+          text: dayData.condition.text,
+        };
+      }
     }
   }
 

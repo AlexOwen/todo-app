@@ -41,13 +41,11 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
   // TODO: call this once per date, not once per row, and cache the result in a Map<Date, object>
   // And move this up to TodoTable.tsx
   useEffect(() => {
-    console.log('weather', todo, todo.dueDate);
     if (todo && todo.dueDate && !weather.text && !fetchingWeather) {
       setFetchingWeather(true);
       getWeather(todo.dueDate).then((newWeather) => {
         if (newWeather && typeof newWeather.text === 'string') {
           setWeather(newWeather);
-          console.log(newWeather);
         }
         setFetchingWeather(false);
       });
