@@ -10,6 +10,9 @@ import {
 import { generateClient } from 'aws-amplify/api';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { LuPencil } from 'react-icons/lu';
+import { IoSaveOutline } from 'react-icons/io5';
+import { FaRegTrashCan } from 'react-icons/fa6';
 
 const client = generateClient<Schema>();
 
@@ -29,6 +32,8 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
   const [currentlyEditing, setCurrentlyEditing] = useState<Array<string>>([]);
   const [weather, setWeather] = useState('');
 
+  // TODO: call this once per date, not once per row, and cache the result in a Map<Date, object>
+  // And move this up to TodoTable.tsx
   useEffect(() => {
     console.log('weather', todo, todo.dueDate);
     if (todo && todo.dueDate) {
@@ -98,13 +103,15 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
           variation="link"
           onClick={() => finishEditAndSave(todo)}
         >
-          Save
+          {/* TODO: replace this icon */}
+          <IoSaveOutline />
         </StyledActionButton>
         <StyledActionButton
           variation="link"
           onClick={() => finishEditAndDelete(todo)}
         >
-          Delete
+          {/* TODO: replace this icon */}
+          <FaRegTrashCan />
         </StyledActionButton>
       </TableCell>
     </TableRow>
@@ -128,13 +135,15 @@ export const TodoTableRow = ({ todo, updateTodo, deleteTodo }: Props) => {
           variation="link"
           onClick={() => setCurrentlyEditing([...currentlyEditing, todo.id])}
         >
-          Edit
+          {/* TODO: replace this icon */}
+          <LuPencil />
         </StyledActionButton>
         <StyledActionButton
           variation="link"
           onClick={() => deleteTodo(todo.id)}
         >
-          Delete
+          {/* TODO: replace this icon */}
+          <FaRegTrashCan />
         </StyledActionButton>
       </TableCell>
     </TableRow>
